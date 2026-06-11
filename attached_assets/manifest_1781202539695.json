@@ -1,0 +1,39 @@
+{
+  "background_color": "#ffffff",
+  "description": "Identifly - Identify Anything",
+  "dir": "auto",
+  "display": "standalone",
+  "name": "Identifly - Identify Anything",
+  "orientation": "any",
+  "scope": "/all",
+  "short_name": "Identifly - Identify Anything",
+  "start_url": "/identifly.com",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/sitesv/AA5AbUBs3aJLiNK8XS0NBWo6-S8kgQBLmzL7jqyrNs3ifaQ9nJ8AA6bRlW-BnngE_kXm0UmkteEuSMy9khqAbUcbtspBmCSaX8OPB128Q320PtLF4OZXEqw5IZsxEAKBgcadjAdOo1S9loK2RXchFXyehpf4zUgwyRl79ru-7GzJHXsyOdlKmBoxuSM_tahSAlYR9tXAiKsuWyr4L0y2RcMLOuFmNg",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/sitesv/AA5AbUAHGr0lYG5gml9rozSSCejsrSCW3E6DrEYs95DoVHT1y2Z0tQBxJXF0SU8B5Q3rX01DXoT0zX15oWi_yC9wwyOPp2UjpVL5IVEGO_t40a1ZA-qrm5sKVSJzJid4pVB2-JeNEsJsxPPhnFGrxcGZZcE1teNinATdHA-SdF1S5WCCrVQzb2hF-CpeE_V9Ttk=w16383",
+      "type": "image/jpeg",
+      "sizes": "2048x1152",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": true,
+      "width": 2048,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "lang": "en"
+}

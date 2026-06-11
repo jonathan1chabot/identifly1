@@ -36,18 +36,22 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       injectRegister: "auto",
-      includeAssets: ["favicon.svg", "icons/*.png", "robots.txt"],
+      includeAssets: ["favicon.svg", "icons/*.png", "robots.txt", "offline.html", "screenshot-demo.png"],
       manifest: {
-        name: "Identifly",
+        id: "/",
+        name: "Identifly - Identify Anything",
         short_name: "Identifly",
-        description: "AI-powered object identification — snap a photo and instantly learn what it is",
+        description: "AI-powered object identification — snap a photo and instantly learn what it is for just $1.",
         start_url: "/",
+        scope: "/",
         display: "standalone",
-        background_color: "#0a0a0a",
-        theme_color: "#FF3C00",
-        orientation: "portrait-primary",
-        categories: ["education", "utilities", "photo"],
+        display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
+        background_color: "#f5f2ee",
+        theme_color: "#1a3d2b",
+        orientation: "any",
+        dir: "ltr",
         lang: "en",
+        categories: ["photo", "reference", "utilities"],
         icons: [
           {
             src: "/icons/icon-192.png",
@@ -68,24 +72,38 @@ export default defineConfig({
             purpose: "maskable",
           },
           {
-            src: "/favicon.svg",
-            sizes: "any",
-            type: "image/svg+xml",
+            src: "/icons/apple-touch-icon.png",
+            sizes: "180x180",
+            type: "image/png",
             purpose: "any",
+          },
+        ],
+        screenshots: [
+          {
+            src: "/screenshot-demo.png",
+            sizes: "1024x1024",
+            type: "image/png",
+            label: "Identifly identifying a cat",
           },
         ],
         shortcuts: [
           {
-            name: "Identify an object",
+            name: "Identify a photo",
+            short_name: "Identify",
             url: "/",
-            icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
+            icons: [{ src: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
           },
         ],
+        prefer_related_applications: false,
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        // Serve offline.html when a navigation request fails (no network)
+        navigateFallback: "/offline.html",
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [
           {
+            // Never cache API calls — always go to network
             urlPattern: /^\/api\//,
             handler: "NetworkOnly",
           },

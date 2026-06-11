@@ -1,0 +1,44 @@
+{
+  "background_color": "#ffffff",
+  "description": "Identifly - Identify Anything",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Identifly - Identify Anything",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Identifly - Identify Anything",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/sitesv/AA5AbUDlYbJNPVM1OEhL205wqpgD9uVEWeono9Sriobu-QD0PZRNXc5bzf1Ste99-FK4GkmwiUQSyYlsvdXQtnAi9defdaz_KMffQN_Djn92LLWApIJ-RiwC4XA0pK9x73i87FNr2FY2Q9UnnGNGE1xK7WZFAf-IXxXdXi2B3hQxKdD1ZcF4WA839zSY2IoEyWSNPN5D8-acoiqXT9qmO8JpM87FZg",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 1024,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/sitesv/AA5AbUA1DoQLknHGInYUR5zLq-hqj0S0j9CRvkXjuAtOvqqtqxSom6K-XzHHOZSekc1u9TchAuEycTocHTrZMqnc3oQSMRB7vN191w-LhiJXjpzELF9ria93N-PJTzonn1aOOwQ2IoDKKvh2ZTTmG68PiPeOVhLHgGF1LdQHaElS8ho6cgFIba7u7fUYAe3KBjc=w16383",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 1024,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "/identifly.com",
+  "categories": [
+    "reference"
+  ]
+}
