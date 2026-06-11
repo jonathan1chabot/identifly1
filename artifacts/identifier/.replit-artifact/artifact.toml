@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Identify Anything"
+title = "Identifly"
 version = "1.0.0"
 id = "artifacts/identifier"
 router = "path"
