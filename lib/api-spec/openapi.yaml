@@ -1,6 +1,5 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
   description: API specification
@@ -10,6 +9,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: identify
+    description: AI-powered object identification
 paths:
   /healthz:
     get:
@@ -24,6 +25,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /identify:
+    post:
+      operationId: identifyImage
+      tags: [identify]
+      summary: Identify an image
+      description: Uses AI vision to identify objects, animals, plants, food, landmarks, and more from an image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdentifyInput"
+      responses:
+        "200":
+          description: Identification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdentifyResult"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /identify/history:
+    get:
+      operationId: getIdentifyHistory
+      tags: [identify]
+      summary: Get identification history
+      description: Returns recent identification results
+      responses:
+        "200":
+          description: List of past identifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/IdentifyRecord"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +80,135 @@ components:
           type: string
       required:
         - status
-
+    IdentifyInput:
+      type: object
+      required:
+        - imageData
+      properties:
+        imageData:
+          type: string
+          description: Base64-encoded image data (with or without data URI prefix)
+        mimeType:
+          type: string
+          description: MIME type of the image (e.g. image/jpeg)
+          default: image/jpeg
+    IdentifyResult:
+      type: object
+      required:
+        - name
+        - description
+        - category
+        - confidence
+        - tags
+        - facts
+        - attributes
+        - identifyingFeatures
+        - alternativeMatches
+        - relatedItems
+      properties:
+        name:
+          type: string
+          description: Primary name of the identified subject
+        description:
+          type: string
+          description: Detailed expert-level description of what was identified
+        category:
+          type: string
+          description: Category (e.g. Animal, Plant, Food, Object, Landmark, Person, etc.)
+        subcategory:
+          type: ["string", "null"]
+          description: More specific classification (e.g. breed, species variant, style, model)
+        confidence:
+          type: number
+          description: Confidence score 0-1
+        tags:
+          type: array
+          items:
+            type: string
+          description: Relevant tags/keywords
+        facts:
+          type: array
+          items:
+            type: string
+          description: Interesting facts about the identified subject
+        attributes:
+          type: array
+          description: Structured key characteristics (e.g. Family, Habitat, Lifespan, Material, Era)
+          items:
+            type: object
+            required:
+              - label
+              - value
+            properties:
+              label:
+                type: string
+              value:
+                type: string
+        identifyingFeatures:
+          type: array
+          items:
+            type: string
+          description: Specific visual cues in the image that led to this identification
+        alternativeMatches:
+          type: array
+          description: Other plausible identifications with their confidence
+          items:
+            type: object
+            required:
+              - name
+              - confidence
+            properties:
+              name:
+                type: string
+              confidence:
+                type: number
+              reason:
+                type: ["string", "null"]
+        relatedItems:
+          type: array
+          items:
+            type: string
+          description: Closely related or commonly confused subjects
+        safetyNote:
+          type: ["string", "null"]
+          description: Safety, edibility, toxicity, or caution information when relevant
+        estimatedValue:
+          type: ["string", "null"]
+          description: Approximate monetary value or rarity when relevant
+        origin:
+          type: ["string", "null"]
+          description: Geographic or cultural origin if relevant
+        scientificName:
+          type: ["string", "null"]
+          description: Scientific name if applicable (animals, plants)
+    IdentifyRecord:
+      type: object
+      required:
+        - id
+        - name
+        - category
+        - confidence
+        - createdAt
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        confidence:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
