@@ -1,17 +1,24 @@
 import { getStripeClient } from "./stripeClient";
+import { setEnvVars } from "./setEnvVars";
 
 async function seedProducts() {
-  const stripe = await getStripeClient();
+  const stripe = getStripeClient();
 
-  const existing = await stripe.products.search({
-    query: "name:'Single Scan' AND active:'true'",
-  });
+  // Check for existing product by listing (avoids search indexing delay)
+  const products = await stripe.products.list({ active: true, limit: 100 });
+  const existing = products.data.find((p) => p.name === "Single Scan");
 
-  if (existing.data.length > 0) {
-    const prices = await stripe.prices.list({ product: existing.data[0].id, active: true });
+  if (existing) {
+    const prices = await stripe.prices.list({ product: existing.id, active: true });
+    const priceId = prices.data[0]?.id;
     console.log("✅ Single Scan product already exists");
-    console.log("   Product ID:", existing.data[0].id);
-    console.log("   Price ID:  ", prices.data[0]?.id ?? "(no prices)");
+    console.log("   Product ID:", existing.id);
+    console.log("   Price ID:  ", priceId ?? "(no prices)");
+
+    if (priceId) {
+      await setEnvVars({ STRIPE_SCAN_PRICE_ID: priceId });
+      console.log("   Saved STRIPE_SCAN_PRICE_ID to env vars");
+    }
     return;
   }
 
@@ -29,6 +36,9 @@ async function seedProducts() {
   console.log("✅ Created Single Scan product");
   console.log("   Product ID:", product.id);
   console.log("   Price ID:  ", price.id);
+
+  await setEnvVars({ STRIPE_SCAN_PRICE_ID: price.id });
+  console.log("   Saved STRIPE_SCAN_PRICE_ID to env vars");
 }
 
 seedProducts().catch((err) => {

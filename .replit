@@ -35,3 +35,5 @@ externalPort = 3000
 
 [userenv.shared]
 AI_INTEGRATIONS_OPENAI_BASE_URL = "https://api.openai.com/v1"
+STRIPE_SECRET_KEY = "sk_test_51Th9FDCdi2iSwS401xJoA1vR4W4taGrdWKAadKKlxcmkqtHTIGQi3uaZWEEhohKyNHP2SQjAyUiAOCFuI2KpJje900kwPKOAXM"
+STRIPE_SCAN_PRICE_ID = "price_1Th9UrCdi2iSwS40befUMRrr"

@@ -6,32 +6,40 @@ import { eq } from "drizzle-orm";
 
 const router = Router();
 
+async function getScanPriceId(): Promise<string | null> {
+  // Fast path: price ID seeded into env var
+  if (process.env.STRIPE_SCAN_PRICE_ID) {
+    return process.env.STRIPE_SCAN_PRICE_ID;
+  }
+
+  // Fallback: list all active prices and find one for a $1 product named "Single Scan"
+  const stripe = await getUncachableStripeClient();
+  const prices = await stripe.prices.list({ active: true, limit: 100 });
+
+  for (const price of prices.data) {
+    if (price.unit_amount === 100 && price.currency === "usd") {
+      // Fetch the product to verify the name
+      const product = await stripe.products.retrieve(price.product as string);
+      if (product.name === "Single Scan" && product.active) {
+        return price.id;
+      }
+    }
+  }
+
+  return null;
+}
+
 router.post("/stripe/create-scan-checkout", async (req, res) => {
   try {
-    const stripe = await getUncachableStripeClient();
+    const priceId = await getScanPriceId();
 
-    const baseUrl = `https://${process.env.REPLIT_DOMAINS?.split(",")[0] ?? "localhost"}`;
-
-    const products = await stripe.products.search({
-      query: "name:'Single Scan' AND active:'true'",
-    });
-
-    if (products.data.length === 0) {
+    if (!priceId) {
       res.status(503).json({ error: "Scan product not configured. Run the seed-products script." });
       return;
     }
 
-    const prices = await stripe.prices.list({
-      product: products.data[0].id,
-      active: true,
-    });
-
-    if (prices.data.length === 0) {
-      res.status(503).json({ error: "Scan price not configured. Run the seed-products script." });
-      return;
-    }
-
-    const priceId = prices.data[0].id;
+    const stripe = await getUncachableStripeClient();
+    const baseUrl = `https://${process.env.REPLIT_DOMAINS?.split(",")[0] ?? "localhost"}`;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
