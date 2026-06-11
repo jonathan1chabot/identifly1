@@ -20,10 +20,18 @@ path = "scripts/post-merge.sh"
 timeoutMs = 20000
 
 [[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
 localPort = 8081
 externalPort = 80
+
+[[ports]]
+localPort = 24487
+externalPort = 3000
 
 [userenv]
 
 [userenv.shared]
-AI_INTEGRATIONS_OPENAI_BASE_URL = "https://api.openai.com/v1"
+AI_INTEGRATIONS_OPENAI_BASE_URL = "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"

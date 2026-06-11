@@ -13,7 +13,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <div className="bg-primary text-primary-foreground p-1.5 rounded-lg group-hover:rotate-12 transition-transform">
               <Telescope className="w-5 h-5" />
             </div>
-            <span className="font-serif font-bold text-xl tracking-tight">Identify Anything</span>
+            <span className="font-serif font-bold text-xl tracking-tight">Identifly</span>
           </Link>
           
           <nav className="flex items-center gap-1">

@@ -1,0 +1,3 @@
+- [OpenAI AI Integration fallback](openai-fallback.md) — when setupReplitAIIntegrations fails (free tier), set AI_INTEGRATIONS_OPENAI_BASE_URL=https://api.openai.com/v1 and request real key via requestEnvVar.
+- [PWA icon generation](pwa-icons.md) — use sharp + a generate-icons.mjs script at artifact root; install sharp as devDep in the artifact package.
+- [Stripe integration dismissed](stripe-dismissed.md) — user dismissed the Replit Stripe connector; collect STRIPE_SECRET_KEY + STRIPE_WEBHOOK_SECRET as secrets instead and wire stripeClient.ts to use them.
