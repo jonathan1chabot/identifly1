@@ -1,4 +1,5 @@
-import { getStripeSync } from "./stripeClient";
+import Stripe from "stripe";
+import { getStripeClient, getWebhookSecret } from "./stripeClient";
 
 export class WebhookHandlers {
   static async processWebhook(payload: Buffer, signature: string): Promise<void> {
@@ -11,7 +12,13 @@ export class WebhookHandlers {
       );
     }
 
-    const sync = await getStripeSync();
-    await sync.processWebhook(payload, signature);
+    const stripe = getStripeClient();
+    const webhookSecret = getWebhookSecret();
+    const event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+
+    // Log event type — extend here to handle specific events
+    if (event.type === "checkout.session.completed") {
+      // Scan tokens are created on verify-scan, not via webhook — nothing extra needed
+    }
   }
 }
